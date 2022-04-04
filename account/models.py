@@ -59,10 +59,9 @@ class User(AbstractBaseUser):
             self.activation_code = code
             self.save()
 
-    # def send_activation_mail(self):
-    #     link = f'http://localhost:8000/accounts/activate/{self.activation_code}'
-    #     message = f"""
-    #     Hello! Thank you for registering on our site!
-    #     For confirmation follow the link {link}
-    #     """
-    #     send_mail("Confirmation of account", message, "test@gmail.com", [self.email])
+    def send_activation_mail(self):
+        message = f"""
+        Hello! Thank you for registering on our site!
+        Your activation code: {self.activation_code}
+        """
+        send_mail("Confirmation of account", message, "test@gmail.com", [self.email])

@@ -16,11 +16,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
+import account
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('account.urls')),
+    path('ads/', include('advertisement.urls'))
 ]
 
 if settings.DEBUG:
