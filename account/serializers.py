@@ -49,9 +49,6 @@ class ActivationSerializer(serializers.Serializer):
         user.save()
 
 
-
-
-
 class LoginSerializer(serializers.Serializer):
     pass
 
