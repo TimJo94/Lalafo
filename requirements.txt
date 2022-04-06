@@ -1,6 +1,9 @@
-Django
-djangorestframework
-psycopg2-binary
-pillow
-python-decouple
-django-filter
+asgiref==3.5.0
+Django==4.0.3
+django-filter==21.1
+djangorestframework==3.13.1
+Pillow==9.1.0
+psycopg2-binary==2.9.3
+python-decouple==3.6
+pytz==2022.1
+sqlparse==0.4.2
