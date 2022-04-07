@@ -9,22 +9,24 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ['picture']
 
 
-class CreateAdSerializer(serializers.ModelSerializer):
-    images = serializers.ListField(
-        write_only=True,
-        child=serializers.ImageField()
-    )
-
-    class Meta:
-        model = Advertisement
-        fields = '__all__'
-
-    def create(self, validated_data):
-        images = validated_data.pop('images', [])
-        ad = super().create(validated_data)
-        for picture in images:
-            AdvertisementGallery.objects.create(advertisement=ad, picture=picture)
-        return ad
+# class CreateAdSerializer(serializers.ModelSerializer):
+#     images = serializers.ListField(
+#         write_only=True,
+#         child=serializers.ImageField()
+#     )
+#
+#     class Meta:
+#         model = Advertisement
+#         # fields = '__all__'
+#         exclude = ['author']
+#
+#     def create(self, validated_data):
+#         validated_data['author'] = self.context['request'].user
+#         images = validated_data.pop('images', [])
+#         ad = super().create(validated_data)
+#         for picture in images:
+#             AdvertisementGallery.objects.create(advertisement=ad, picture=picture)
+#         return ad
 
 
 class AdvertisementListSerializer(serializers.ModelSerializer):
@@ -41,4 +43,43 @@ class AdvertisementListSerializer(serializers.ModelSerializer):
         return ''
 
 
+# class AdvertisementDetailsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Advertisement
+#         fields = '__all__'
+#
+#     def to_representation(self, instance):
+#         representation = super().to_representation(instance)
+#         representation['images'] = ImageSerializer(instance.images.all(), many=True).data
+#         return representation
+#
+#
+# class UpdateAdvertisementSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Advertisement
+#         fields = ['title', 'text', 'city', 'price']
+
+
+class AdvertisementSerializer(serializers.ModelSerializer):
+    images = serializers.ListField(
+        write_only=True,
+        child=serializers.ImageField()
+    )
+    class Meta:
+        model = Advertisement
+        # fields = '__all__'
+        exclude = ['user']
+
+    def create(self, validated_data):
+        validated_data['author'] = self.context['request'].user
+        images = validated_data.pop('images', [])
+        ad = super().create(validated_data)
+        for picture in images:
+            AdvertisementGallery.objects.create(advertisement=ad, picture=picture)
+        return ad
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['images'] = ImageSerializer(instance.images.all(), many=True).data
+        return representation
 
