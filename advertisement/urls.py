@@ -5,6 +5,7 @@ from advertisement.views import *
 
 router = DefaultRouter()
 router.register('', AdvertisementViewSet)
+router.register('categories', CategoriesViewSet)
 
 urlpatterns = [
     # path('', AdvertisementsListView.as_view()),
@@ -21,6 +22,6 @@ urlpatterns = [
 #         'patch': 'partial_update'
 #         'delete': 'destroy'
 #     }))
-    path('', include(router.urls))
+    path('', include(router.urls)),
 
 ]

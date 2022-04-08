@@ -65,3 +65,8 @@ class User(AbstractBaseUser):
         Your activation code: {self.activation_code}
         """
         send_mail("Confirmation of account", message, "test@gmail.com", [self.email])
+
+    def send_new_password(self, new_password):
+        message = f'Ваш новый пароль: {new_password}'
+        send_mail('Восстановление Пароля', message, 'test@gmail.com', [self.email])
+

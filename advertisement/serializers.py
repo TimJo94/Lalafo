@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from advertisement.models import Advertisement, AdvertisementGallery
+from advertisement.models import Advertisement, AdvertisementGallery, Category
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -43,6 +43,8 @@ class AdvertisementListSerializer(serializers.ModelSerializer):
         return ''
 
 
+
+
 # class AdvertisementDetailsSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Advertisement
@@ -68,7 +70,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Advertisement
         # fields = '__all__'
-        exclude = ['user']
+        exclude = ['author']
 
     def create(self, validated_data):
         validated_data['author'] = self.context['request'].user
@@ -83,3 +85,8 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         representation['images'] = ImageSerializer(instance.images.all(), many=True).data
         return representation
 
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
